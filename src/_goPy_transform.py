@@ -12,6 +12,7 @@
 # Modules to Evaluate
 import csv
 import unicodedata
+import sys
 from operator import add
 
 
@@ -95,6 +96,16 @@ def generateDataFile( basket, fileNameOUT ):
             f.write("\n")
             # <implement-your-code-here>
 
+#_______________________________________________________________________________
+# getting command line args
+def getIO():
+    def usage():
+        return ("the first and the second argument should be a input and output file")
+    if len( sys.argv ) > 2:
+        return (sys.argv[1], sys.argv[2])
+    else:
+        print usage()
+        sys.exit()
 
 #_______________________________________________________________________________
 # the main of this module (in case this module is imported from another module)
@@ -104,8 +115,7 @@ if __name__=="__main__":
     
 	# fIN = "zz_dataset_2012_01.txt"
 	# fIN = "z_datasetSample_201201.txt"
-    fIN = "z_dataset_201201.csv"
-    fOUT = "zz_dataset_2012_01_empty.basket.txt"
+    fIN, fOUT = getIO()
     print
     print ">> 1. Generate Basket"
     basket = generateBasket( fIN )
