@@ -39,7 +39,7 @@ def main():
     # data = data.select(range(10))
 
     # print orange.maxItemSets
-    rules = orange.AssociationRulesInducer(data, support=getSupport())
+    rules = orange.AssociationRulesSparseInducer(data, support=getSupport())
 
     print "%i rules with support higher than or equal to %5.3f found.\n" % (len(rules), getSupport())
 
