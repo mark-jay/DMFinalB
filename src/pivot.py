@@ -34,6 +34,14 @@ def getIndexFinder( aList ):
     aMap = dict( zip( aList, range( len( aList ) ) ) )
     return aMap.get
 
+def testRes( res ):
+    lenFst = len( res[0] )
+    def testLen( row ):
+        if len( row ) != lenFst:
+            sys.stderr.write ( "length of the header = %s, len of the row = %s, where row = %s" % ( lenFst, len( row ), row ) )
+            sys.exit()
+    map( testLen, res )
+
 # [[String]] -> [String]
 def pivot( parsedLines ):
     allItems = getAllItems( parsedLines[1:] )
@@ -43,21 +51,30 @@ def pivot( parsedLines ):
     
     res = []
     
-    # printing header
-    header = [getItemsetID( parsedLines[0] )] + allItems
-    res.append( header )
+    # # printing header
+    # header = [getItemsetID( parsedLines[0] )] + allItems
+    # res.append( header )
 
+    def repr1( x ): return str(x)#'"' + str(x) + '"'
+    
+    def toCounted( item, items ):
+        cnt = items.count( item )
+        if cnt == 1:   
+            return repr1( item )
+        else: 
+            return repr1( item + "%"+str( cnt ) ) # "%" will be replaced by "="
+    
     # printting other
     for itemsetID, items in itemsetDict.items():
-        arr = ["0"]*allItemsLen
-        for item in items:
-            idx = findIndex( item )
-            arr[idx] = "1"
-        arr = [itemsetID] + arr
-        res.append(arr)
-    
-    #print list(itemsetDict)[0:10]
-    return map( lambda r: ",".join(map(repr, r)) + "\n", res )
+        arr = []
+        for item in list( set( items ) ):
+            counted = toCounted( item, items )
+            arr.append( counted )
+        res.append( arr )
+
+    # testRes( res )
+    # print list(itemsetDict)[0:10]
+    return map( lambda r: ",".join(r) + "\n", res )
 
 def parseLines( lines ):
     reader = csv.reader( lines, delimiter=',', quoting=csv.QUOTE_ALL ) 
@@ -66,11 +83,11 @@ def parseLines( lines ):
 def testRead( lines ):
     parsed = parseLines( lines )
     if ( not( all( map( lambda r: len( r ) == 2, parsed ) ) ) ):
-        print "parsing test failed"
+        sys.stderr.write( "parsing test failed" )
         sys.exit()
 
 def go( infile, outfile ):
-    lines = infile.readlines()
+    lines = infile.readlines()[0:200]
     testRead( lines )
     parsedLines = parseLines( lines )
     outfile.writelines( pivot( parsedLines ) )

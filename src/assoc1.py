@@ -35,8 +35,10 @@ def main():
     print
     data = orange.ExampleTable(getFile())
     # data = orange.Preprocessor_discretize(data, method=orange.EquiNDiscretization(numberOfIntervals=3))
+	### uncomment if not working
     # data = data.select(range(10))
 
+    # print orange.maxItemSets
     rules = orange.AssociationRulesInducer(data, support=getSupport())
 
     print "%i rules with support higher than or equal to %5.3f found.\n" % (len(rules), getSupport())

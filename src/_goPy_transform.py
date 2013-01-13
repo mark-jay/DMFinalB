@@ -52,6 +52,11 @@ def normalizeString( aString ):
     symbolNew = ""
     aString = aString.replace( symbolToReplace, symbolNew )
     
+    # making equal sign(=) for basket files
+    symbolToReplace = "%"
+    symbolNew = "="
+    aString = aString.replace( symbolToReplace, symbolNew )
+    
     # eliminate accent characters
     encoding_windows = "iso-8859-1" #"cp1252" #"latin-1" #"latin9" 
     aString = remove_accents( aString, encoding_windows )
