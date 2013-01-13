@@ -96,7 +96,8 @@ def generateDataFile( basket, fileNameOUT ):
     def intercalateWith( array, symbol ):
 	    return reduce(lambda acc, c: acc + symbol + c, array)
     with open ( fileNameOUT, 'w') as f:
-        for row in basket:
+        for i, row in enumerate( basket ):
+            if ( len( row ) == 0): sys.stderr.writelines( [ str(i) ] )
             f.writelines(intercalateWith( row, ", " ))
             f.write("\n")
     

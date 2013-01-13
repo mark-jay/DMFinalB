@@ -1,6 +1,13 @@
 # import orange, orngAssoc
 import sys
 import csv
+import re
+
+# not for pivot
+def normilize( item ):
+    if re.match( "display.product", item ) != None:
+        return item.split( "*" )[ 1 ]
+    return item
 
 def getItem( row ):
     return row[1]
@@ -68,13 +75,18 @@ def pivot( parsedLines ):
     for itemsetID, items in itemsetDict.items():
         arr = []
         for item in list( set( items ) ):
-            counted = toCounted( item, items )
+            counted = normilize( toCounted( item, items ) )
             arr.append( counted )
+        if ( len( arr ) == 0 ): sys.stderr.writelines( [ str( itemsetID ) ] )
         res.append( arr )
 
     # testRes( res )
     # print list(itemsetDict)[0:10]
-    return map( lambda r: ",".join(r) + "\n", res )
+    def f(r):
+        res = ",".join(r) + "\n"
+        if ( res == "\n" ): sys.stderr.writelines( [ str( "FUCK!'" + str(r) + "'" ) ] )
+        return res
+    return map( f, res )
 
 def parseLines( lines ):
     reader = csv.reader( lines, delimiter=',', quoting=csv.QUOTE_ALL ) 
@@ -87,7 +99,7 @@ def testRead( lines ):
         sys.exit()
 
 def go( infile, outfile ):
-    lines = infile.readlines()[0:200]
+    lines = infile.readlines()
     testRead( lines )
     parsedLines = parseLines( lines )
     outfile.writelines( pivot( parsedLines ) )
