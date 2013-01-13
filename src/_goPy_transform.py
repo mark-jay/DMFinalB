@@ -84,7 +84,8 @@ def generateBasket( fileNameIN ):
         for i, row in enumerate(reader):
             if True:
                 # print "row: ", map(normalizeString, row)
-                r = map(encloseString, map(normalizeString, row))
+                # r = map(encloseString, map(normalizeString, row))
+                r = map(normalizeString, row)
                 basket.append(r)
             
     return basket
@@ -92,11 +93,11 @@ def generateBasket( fileNameIN ):
 #_______________________________________________________________________________
 # generate a dataset file with the ".basket" structure expected by Orange"
 def generateDataFile( basket, fileNameOUT ):
-    def interpolateWith( array, symbol ):
+    def intercalateWith( array, symbol ):
 	    return reduce(lambda acc, c: acc + symbol + c, array)
     with open ( fileNameOUT, 'w') as f:
         for row in basket:
-            f.writelines(interpolateWith( row, "\t" ))
+            f.writelines(intercalateWith( row, ", " ))
             f.write("\n")
     
 #_______________________________________________________________________________

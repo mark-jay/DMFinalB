@@ -62,7 +62,7 @@ def pivot( parsedLines ):
         if cnt == 1:   
             return repr1( item )
         else: 
-            return repr1( item + "%"+str( cnt ) ) # "%" will be replaced by "="
+            return repr1( item ) + "%" + str( cnt ) # "%" will be replaced by "="
     
     # printting other
     for itemsetID, items in itemsetDict.items():
