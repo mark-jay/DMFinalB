@@ -77,7 +77,6 @@ def generateBasket( fileNameIN ):
 		# otherwise it could raise an error when see enclosed tab like "tabbed\ttext"
         reader = csv.reader( f, delimiter=',', quoting=csv.QUOTE_ALL ) 
         for i, row in enumerate(reader):
-            # <implement-your-code-here>
             if True:
                 # print "row: ", map(normalizeString, row)
                 r = map(encloseString, map(normalizeString, row))
@@ -94,15 +93,16 @@ def generateDataFile( basket, fileNameOUT ):
         for row in basket:
             f.writelines(interpolateWith( row, "\t" ))
             f.write("\n")
-            # <implement-your-code-here>
-
+    
 #_______________________________________________________________________________
 # getting command line args
 def getIO():
     def usage():
         return ("the first and the second argument should be a input and output file")
-    if len( sys.argv ) > 2:
+    if len( sys.argv ) == 3:
         return (sys.argv[1], sys.argv[2])
+    elif len( sys.argv ) == 1:
+        return ( sys.stdin, sys.stdout )
     else:
         print usage()
         sys.exit()

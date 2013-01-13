@@ -34,15 +34,14 @@ def main():
     print ("searching in a file '%s' ..." % getFile())
     print
     data = orange.ExampleTable(getFile())
-    data = orange.Preprocessor_discretize(data, \
-      method=orange.EquiNDiscretization(numberOfIntervals=3))
-    data = data.select(range(10))
+    # data = orange.Preprocessor_discretize(data, method=orange.EquiNDiscretization(numberOfIntervals=3))
+    # data = data.select(range(10))
 
     rules = orange.AssociationRulesInducer(data, support=getSupport())
 
     print "%i rules with support higher than or equal to %5.3f found.\n" % (len(rules), getSupport())
 
-    orngAssoc.sort(rules, ["support", "confidence"])
+    orngAssoc.sort(rules, ["confidence", "support"])
 
     orngAssoc.printRules(rules[:40], ["support", "confidence"])
     print
