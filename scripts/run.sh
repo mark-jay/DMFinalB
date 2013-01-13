@@ -1,0 +1,1 @@
+cat ../data/sorted_subset/sorted_relevant_subset.tab  | python pivot.py > ../data/pivoted/pivoted_relev_subset.txt && python _goPy_transform.py ../data/pivoted/pivoted_relev_subset.txt ../data/pivoted/pivoted_relev_subset1.txt
