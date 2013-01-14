@@ -45,7 +45,7 @@ def main():
 
     orngAssoc.sort(rules, ["confidence", "support"])
 
-    orngAssoc.printRules(rules[:40], ["support", "confidence"])
+    orngAssoc.printRules(rules[:40], ["support", "confidence", "lift", "leverage", "coverage"])
     print
 
 main()
